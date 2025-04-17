@@ -37,4 +37,9 @@
 
 12 - Now its time to create models(blue prints of our datas, its name is changing for every tech stack but I call tem blueprints). Example model = user.model.js 
 
-13 - After creating your models, we need to create a centrilazed error handling system to track errors. (Error handling middleware)
+13 - After creating your models, we need to create a centrilazed error handling system to track errors. (Error handling middleware). This will help us to identify some bugs and improve our debugging journey. There are some built-in middlewares are coming from express too(cookieParser, urlencoded, json parser etc.). Make sure you imported your error handling middleware in the app.js and use them.
+
+14 - Now its time to set up our authentication. Lets install some packeges: npm install jsonwebtoken bcryptjs. After installation move on to the .env.development.loacal to set new variables JWT_SECRET and JWT_EXPIRES_IN
+
+15- After all of those stuff now we can finally write our logic, I mean controllers... Create a new directory called controllers and put your controllers in it(exp auth.controller.js)
+
