@@ -41,7 +41,13 @@
 
 14 - Now its time to set up our authentication. Lets install some packeges: npm install jsonwebtoken bcryptjs. After installation move on to the .env.development.loacal to set new variables JWT_SECRET and JWT_EXPIRES_IN
 
-15- After all of those stuff now we can finally write our logic, I mean controllers... Create a new directory called controllers and put your controllers in it(exp auth.controller.js)
+15 - After all of those stuff now we can finally write our logic, I mean controllers... Create a new directory called controllers and put your controllers in it(exp auth.controller.js). After creating your controller you can test the endpoints(you defiended in routes) via postman, thunder client etc. 
+
+16 - I want to mention something here, its quite interesting that I can create a user with a low security password(like "123") even I defined it in the model for beeing al least 6 characters, I figured out that we are hashing that low quality passowrd and it doesnt return any error because of that. So we need to define an if statment for that in the controller too. Added a passowrd regex check too (to check if its containing any special characters or not). 
+
+17 -
+
+
 
 
 
