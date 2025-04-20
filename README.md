@@ -1,51 +1,143 @@
-1 - npx express-generator --no-view --git ./
+# Subscription Backend Node.js Project
 
-2 - npm install --save-dev nodemon
-    Configure name, verion, type ("type": "module", for ES6 import export syntax) scripts in packge.json
+Welcome to my journey of building a subscription backend using Node.js, Express, and MongoDB! This README documents my development process, learnings, and project structure.
 
-3 - npx eslint --init
-    √ What do you want to lint? · javascript
-    √ How would you like to use ESLint? · problems and ..
-    √ What type of modules does your project use? · esm
-    √ Which framework does your project use? · none
-    √ Does your project use TypeScript? · no
-    √ Where does your code run? · node
-        The config that you've selected requires the following dependencies:  eslint, @eslint/js, globals
-    √ Would you like to install them now? Yes
-    √ Which package manager do you want to use? · npm
+---
 
-4 - npm install dotenv
-    Set config folder and put env.js, 
-    Create .env.development.local and .env.production.local
+## Table of Contents
+1. [Project Overview](#project-overview)
+2. [Development Journey](#development-journey)
+3. [Project Structure](#project-structure)
+4. [Environment Configuration](#environment-configuration)
+5. [Database Setup](#database-setup)
+6. [Models](#models)
+7. [Error Handling](#error-handling)
+8. [Authentication & Authorization](#authentication--authorization)
+9. [Testing Endpoints](#testing-endpoints)
+10. [Notes & Learnings](#notes--learnings)
 
-5 - Define dev port in .env.development.local (PORT=5500)
+---
 
-6 - Use config in app.js by importing the PORT
+## Project Overview
+A Node.js backend for managing user subscriptions, featuring authentication, authorization, and MongoDB integration.
 
-7 - Make sure you added .en.*.local to the .gitignore
+---
 
-8 - Now lets set our routes(endpoints)
-    Create a folder named routes,
-    Define your routes inside here(eg. auth.routes.js)
-    After creating your routes make sure you import them in app.js
+## Development Journey
 
-9 - Now its time to choose a data base for the application. We are going with MongoDB Atlas. Go and create your db on the web (make sure you dont put special characters to password), grab your connection string and install required packages (npm install mongodb mongoose)
+### 1. Project Initialization
+- Used `npx express-generator --no-view --git ./` to scaffold the project.
+- Installed `nodemon` for development and set up scripts in `package.json`.
+- Configured ES6 module support with `"type": "module"` in `package.json`.
 
-10 - Put the connection string to .env.development.local and export it in the env.js file
+### 2. Linting
+- Initialized ESLint with `npx eslint --init` for code quality.
 
-11 - Then create a new directory for database connection and create mongodb.js file. After you configure connection call it in the app.js file when you listen the port.
+### 3. Environment Variables
+- Installed `dotenv`.
+- Created a `config` folder and added `env.js`.
+- Created `.env.development.local` and `.env.production.local` for environment variables.
+- Set development port in `.env.development.local` (e.g., `PORT=5500`).
+- Ensured `.en.*.local` is in `.gitignore`.
 
-12 - Now its time to create models(blue prints of our datas, its name is changing for every tech stack but I call tem blueprints). Example model = user.model.js 
+### 4. Routing
+- Created a `routes` folder and defined endpoints (e.g., `auth.routes.js`).
+- Imported routes in `app.js`.
 
-13 - After creating your models, we need to create a centrilazed error handling system to track errors. (Error handling middleware). This will help us to identify some bugs and improve our debugging journey. There are some built-in middlewares are coming from express too(cookieParser, urlencoded, json parser etc.). Make sure you imported your error handling middleware in the app.js and use them.
+### 5. Database Setup
+- Chose MongoDB Atlas for the database.
+- Installed `mongodb` and `mongoose`.
+- Stored the connection string in `.env.development.local` and exported it in `env.js`.
+- Created a `database` directory and `mongodb.js` for the connection logic.
+- Connected to the database in `app.js`.
 
-14 - Now its time to set up our authentication. Lets install some packeges: npm install jsonwebtoken bcryptjs. After installation move on to the .env.development.loacal to set new variables JWT_SECRET and JWT_EXPIRES_IN
+### 6. Models
+- Created models (blueprints) in the `models` directory (e.g., `user.model.js`).
 
-15 - After all of those stuff now we can finally write our logic, I mean controllers... Create a new directory called controllers and put your controllers in it(exp auth.controller.js). After creating your controller you can test the endpoints(you defiended in routes) via postman, thunder client etc. 
+### 7. Error Handling
+- Implemented centralized error handling middleware in `middlewares/error.middleware.js`.
+- Imported and used error handling middleware in `app.js`.
+- Utilized built-in Express middlewares (cookieParser, urlencoded, json parser, etc.).
 
-16 - I want to mention something here, its quite interesting that I can create a user with a low security password(like "123") even I defined it in the model for beeing al least 6 characters, I figured out that we are hashing that low quality passowrd and it doesnt return any error because of that. So we need to define an if statment for that in the controller too. Added a passowrd regex check too (to check if its containing any special characters or not). 
+### 8. Authentication & Authorization
+- Installed `jsonwebtoken` and `bcryptjs` for authentication.
+- Added `JWT_SECRET` and `JWT_EXPIRES_IN` to `.env.development.local`.
+- Created controllers in the `controllers` directory (e.g., `auth.controller.js`).
+- Tested endpoints using Postman/Thunder Client.
+- Noted a learning: Password validation must be handled before hashing, as hashing bypasses model validation for weak passwords. Added regex checks for password strength in the controller.
+- Implemented authorization by fetching user data from the database (e.g., in `user.controller.js`).
 
-17 -
+---
+
+## Project Structure
+```
+app.js
+config/
+  env.js
+controllers/
+  auth.controller.js
+  user.controller.js
+database/
+  mongodb.js
+middlewares/
+  error.middleware.js
+models/
+  subscription.model.js
+  user.model.js
+routes/
+  auth.routes.js
+  subscription.routes.js
+  user.routes.js
+```
+
+---
+
+## Environment Configuration
+- Store sensitive data in `.env.*.local` files.
+- Use `dotenv` and `config/env.js` to load environment variables.
+
+---
+
+## Database Setup
+- Use MongoDB Atlas for cloud database.
+- Store connection string in environment variables.
+- Use `mongoose` for ODM.
+
+---
+
+## Models
+- Define data blueprints in the `models` directory.
+- Example: `user.model.js`, `subscription.model.js`.
+
+---
+
+## Error Handling
+- Centralized error handling in `middlewares/error.middleware.js`.
+- Use Express built-in middlewares for parsing and cookies.
+
+---
+
+## Authentication & Authorization
+- Use JWT for authentication and `bcryptjs` for password hashing.
+- Validate password strength before hashing.
+- Store JWT secrets in environment variables.
+
+---
+
+## Testing Endpoints
+- Use Postman or Thunder Client to test API endpoints.
+
+---
+
+## Notes & Learnings
+- Always validate passwords before hashing.
+- Centralized error handling improves debugging.
+- Keep environment variables out of version control.
+- Modularize code for maintainability.
+
+---
+
+_This README is a living document and will be updated as development progresses._
 
 
 
