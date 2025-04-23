@@ -1,16 +1,13 @@
 import { Router } from "express";
+import { getUsers, getUser } from "../controllers/user.controller.js";
+import { authorize, authorizeAdmin, authorizeSelfOrAdmin } from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-    // Handle fetching user profile
-    res.send({ title: "Get all users." });
-});
+userRouter.get('/', authorize, authorizeAdmin, getUsers);
 
-userRouter.get('/:id', (req, res) => {
-    // Handle fetching user profile by ID
-    res.send({ title: "Get user by ID." });
-});
+// Protected route
+userRouter.get('/:id', authorize, authorizeSelfOrAdmin, getUser);
 
 userRouter.post('/', (req, res) => {
     // Handle creating a new user

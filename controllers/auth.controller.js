@@ -14,7 +14,7 @@ export const signUp = async (req, res, next) => {
     session.startTransaction()
     try {
         // Create a new user in the database
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         // Check if the user already exists, User is a Mongoose model
         const existingUser = await User.findOne({ email });
@@ -44,7 +44,8 @@ export const signUp = async (req, res, next) => {
         const newUsers = await User.create([{
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: role === "admin" ? "admin" : "user"
         }], { session });
 
         const token = jwt.sign(
