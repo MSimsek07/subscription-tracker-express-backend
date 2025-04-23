@@ -67,6 +67,13 @@ A Node.js backend for managing user subscriptions, featuring authentication, aut
 - Noted a learning: Password validation must be handled before hashing, as hashing bypasses model validation for weak passwords. Added regex checks for password strength in the controller.
 - Implemented authorization by fetching user data from the database (e.g., in `user.controller.js`).
 
+### 9. Security & Role-Based Access Improvements
+- Added a `role` field to the user model, supporting both `user` and `admin` roles.
+- Updated user registration logic to allow setting the role to `admin` only if explicitly provided; otherwise, defaults to `user`.
+- Implemented admin-only access for fetching all users: only authenticated admins can access the GET `/users` endpoint.
+- Secured the GET `/users/:id` endpoint so only the user themselves or an admin can access specific user info.
+- Refactored authorization logic into a reusable `authorizeSelfOrAdmin` middleware for cleaner routes and better maintainability.
+
 ---
 
 ## Project Structure
@@ -81,6 +88,7 @@ database/
   mongodb.js
 middlewares/
   error.middleware.js
+  auth.middleware.js
 models/
   subscription.model.js
   user.model.js
