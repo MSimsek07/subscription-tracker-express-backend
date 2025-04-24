@@ -92,6 +92,7 @@ config/
 controllers/
   auth.controller.js
   user.controller.js
+  subscription.controller.js
 database/
   mongodb.js
 middlewares/
@@ -168,6 +169,34 @@ This project uses [Arcjet](https://arcjet.com/) to provide API rate limiting and
 - Centralized error handling improves debugging.
 - Keep environment variables out of version control.
 - Modularize code for maintainability.
+
+---
+
+## Subscription Functionality
+
+### Endpoints
+
+- `GET /api/v1/subscriptions/` (admin only): Get all subscriptions. (Implemented)
+- `GET /api/v1/subscriptions/user/:id` (user or admin): Get all subscriptions for a specific user. (Implemented)
+- `POST /api/v1/subscriptions/` (authenticated user): Create a new subscription. (Implemented)
+- `GET /api/v1/subscriptions/:id`: Get a subscription by ID. (Stub/Not implemented)
+- `PUT /api/v1/subscriptions/:id`: Update a subscription by ID. (Stub/Not implemented)
+- `DELETE /api/v1/subscriptions/:id`: Delete a subscription by ID. (Stub/Not implemented)
+- `PUT /api/v1/subscriptions/:id/cancel`: Cancel a subscription by ID. (Stub/Not implemented)
+- `GET /api/v1/subscriptions/upcoming-renewals`: Get all upcoming renewals. (Stub/Not implemented)
+
+### Controllers
+- `controllers/subscription.controller.js`:
+  - `createSubscription`: Creates a new subscription for the authenticated user.
+  - `getUserSubscriptions`: Retrieves all subscriptions for a specific user (user or admin access).
+  - `getAllSubscriptions`: Retrieves all subscriptions (admin access only).
+  - (Other controller logic for update, delete, cancel, and renewals is not yet implemented.)
+
+### Models
+- `models/subscription.model.js`: Defines the schema for subscription data, including fields like name, price, currency, frequency, category, payment method, status, startDate, renewalDate, and user reference.
+
+### Routes
+- `routes/subscription.routes.js`: Defines API endpoints for managing subscriptions and applies appropriate authentication and authorization middleware. Some endpoints are currently placeholders for future logic.
 
 ---
 
