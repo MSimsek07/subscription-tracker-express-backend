@@ -34,6 +34,8 @@ const authorizeAdmin = (req, res, next) => {
     next();
 }
 
+// This middleware checks if the user is an admin or if the user is trying to access their own information
+// It is used to protect routes that should only be accessible by the user themselves or an admin
 const authorizeSelfOrAdmin = (req, res, next) => {
     if (req.user.role === 'admin') {
         return next();
