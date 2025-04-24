@@ -6,6 +6,7 @@ import authRouter from './routes/auth.routes.js';
 import subscriptionRouter from './routes/subscription.routes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleware from './middlewares/error.middleware.js';
+import arcjetMiddleware from './middlewares/arcjet.middleware.js';
 
 
 const app = express();
@@ -20,6 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware to parse cookies
 // This middleware is used to parse cookies from the request headers.
 app.use(cookieParser());
+
+// Middleware to handle Rete Limiting and Bots
+app.use(arcjetMiddleware);
 
 // api/v1/auth/sign-up
 app.use('/api/v1/auth', authRouter);
