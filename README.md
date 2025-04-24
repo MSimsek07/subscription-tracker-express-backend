@@ -14,7 +14,8 @@ Welcome to my journey of building a subscription backend using Node.js, Express,
 7. [Error Handling](#error-handling)
 8. [Authentication & Authorization](#authentication--authorization)
 9. [Testing Endpoints](#testing-endpoints)
-10. [Notes & Learnings](#notes--learnings)
+10. [Arcjet Integration (Rate Limiting & Bot Protection)](#arcjet-integration-rate-limiting--bot-protection)
+11. [Notes & Learnings](#notes--learnings)
 
 ---
 
@@ -75,12 +76,19 @@ A Node.js backend for managing user subscriptions, featuring authentication, aut
 - Refactored authorization logic into a reusable `authorizeSelfOrAdmin` middleware for cleaner routes and better maintainability.
 
 ---
+### 10. Arcjet Integration
+- Added Arcjet middleware for API rate limiting and bot protection.
+- Configured in `config/arcjet.js` and applied via `middlewares/arcjet.middleware.js`. 
+- Call your middleware in `app.js` before the main routes via `app.use()`.
+- Protects against common attacks, abusive clients, and most bots (except search engines).
+---
 
 ## Project Structure
 ```
 app.js
 config/
   env.js
+  arcjet.js
 controllers/
   auth.controller.js
   user.controller.js
@@ -89,6 +97,7 @@ database/
 middlewares/
   error.middleware.js
   auth.middleware.js
+  arcjet.middleware.js
 models/
   subscription.model.js
   user.model.js
@@ -134,6 +143,23 @@ routes/
 
 ## Testing Endpoints
 - Use Postman or Thunder Client to test API endpoints.
+
+---
+
+## Arcjet Integration (Rate Limiting & Bot Protection)
+
+This project uses [Arcjet](https://arcjet.com/) to provide API rate limiting and bot protection.
+
+### How it works
+- The Arcjet middleware (`middlewares/arcjet.middleware.js`) is applied to API routes to monitor and control incoming requests.
+- It helps prevent abuse by limiting the number of requests per client and blocking suspected bots.
+
+### Configuration
+- Arcjet is configured in `config/arcjet.js`.
+
+### Usage
+- The middleware automatically responds with `429 Too Many Requests` if the rate limit is exceeded, or `403 Forbidden` if a bot is detected.
+- Errors are logged for debugging.
 
 ---
 
